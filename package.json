@@ -1,0 +1,16 @@
+{
+  "name": "update-skills-server",
+  "version": "1.0.0",
+  "description": "MongoDB server",
+  "private": true,
+  "author": "https://github.com/MajorPrestige",
+  "engines": {
+    "node": ">=18 <19"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
