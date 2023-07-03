@@ -4,10 +4,10 @@ const path = require('path');
 const { ctrlWrapper, RequestError } = require('../helpers');
 const userSchema = require('../models/Users');
 
-const contactsPath = path.join(__dirname, '../models', 'users.json');
+const usersPath = path.join(__dirname, '../models', 'users.json');
 
 const getAll = async (req, res) => {
-  const data = await fs.readFile(contactsPath);
+  const data = await fs.readFile(usersPath);
   const result = JSON.parse(data);
   res.json(result);
 };
@@ -19,18 +19,21 @@ const updateUserFollowers = async (req, res) => {
     throw RequestError(400, error.message);
   }
 
-  const { userId } = req.params;
-  const contacts = await getAll();
-  const indexToUpdate = contacts.findIndex(el => el.id === userId);
+  const { id } = req.params;
+
+  const data = await fs.readFile(usersPath);
+  const users = JSON.parse(data);
+
+  const indexToUpdate = users.findIndex(el => el.id === id);
 
   if (indexToUpdate === -1) {
     return null;
   }
 
-  contacts[indexToUpdate] = { userId, ...req.body };
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  users[indexToUpdate] = { id, ...req.body };
+  await fs.writeFile(usersPath, JSON.stringify(users, null, 2));
 
-  const result = contacts[indexToUpdate];
+  const result = users[indexToUpdate];
 
   if (!result) {
     throw RequestError(404, 'Contact not found');
